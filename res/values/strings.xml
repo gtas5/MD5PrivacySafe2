@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MD5私密保险箱</string>
+    <string name="title_section1">图片</string>
+    <string name="title_section2">文件</string>
+    <string name="title_section3">信息</string>
+    <string name="title_section4">联系人</string>
+    <string name="title_section5">密码本</string>
+    <string name="title_section6">关于</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_recevie_file">添加到MD5私密保险箱</string>
+    <string name="encrypting">正在加密</string>
+    <string name="cancle">取消</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="title_activity_receive_file">ReceiveFileActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
