@@ -76,7 +76,6 @@ public class ReceiveFileActivity extends ActionBarActivity {
 				try {
 					// Get resource path from intent
 					Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
-					// ����·��
 					// String path = getRealPathFromURI(this, uri);
 					Toast.makeText(getApplicationContext(), uri.toString(),
 							Toast.LENGTH_SHORT).show();
@@ -87,5 +86,9 @@ public class ReceiveFileActivity extends ActionBarActivity {
 			} else if (extras.containsKey(Intent.EXTRA_TEXT)) {
 			}
 		}
+	}
+	
+	private void storeInfoInDB(){
+		
 	}
 }
