@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 
 /**
+ * 数据库工具类
  * @author LiuYajun
  * 
  */
@@ -63,13 +64,21 @@ public class DBHelper {
 	}
 
 
-	public DBHelper getInstance(Context context) throws FileNotFoundException {
+	public static DBHelper getInstance(Context context) throws FileNotFoundException {
 		if (helper == null) {
 			helper = new DBHelper(context);
 		}
 		return helper;
 	}
 
+	/**
+	 * 存储新照片到数据库，注意，只有缩略图杯存储到数据库，图片本身没有被存储到数据库
+	 * @param origPath 加密前文件的路径
+	 * @param origName 加密前文件的名字
+	 * @param thumb    文件的缩略图
+	 * @return
+	 * @throws IOException
+	 */
 	public boolean storeNewPhoto(String origPath,String origName,Bitmap thumb) throws IOException{
 		ContentValues values = new ContentValues();
 		values.put("orig_path", origPath);
@@ -81,6 +90,33 @@ public class DBHelper {
 		return true;
 	}
 	
+	/**
+	 * 存取新文件信息到数据库，注意文件本身并没有存储到数据库
+	 * @param origPath 加密前文件的路径
+	 * @param origName 加密前文件的名字
+	 * @return
+	 */
+	public boolean storeNewFile(String origPath,String origName){
+		ContentValues values = new ContentValues();
+		values.put("orig_path", origPath);
+		values.put("orig_name", origName);
+		values.put("privacted_path", sdCardPath+PRIVACTED_PHOTO_DIR);
+		values.put("privacted_name", origName+PRIVACTED_NAME_FIX);
+		db.insert("file", null, values);
+		return true;
+	}
 	
-	
+	/**
+	 * 存储新字符串到数据库
+	 * @param privactedTxt
+	 * @param txtType
+	 * @return
+	 */
+	public boolean storeNewText(String privactedTxt,String txtType){
+		ContentValues values = new ContentValues();
+		values.put("privacted_txt", privactedTxt);
+		values.put("txt_type", txtType);
+		db.insert("photo", null, values);
+		return true;
+	}
 }
