@@ -34,11 +34,11 @@ public class ReceiveFileActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			if (result) {
-				Toast.makeText(getApplicationContext(), "加密成功！",
+				Toast.makeText(getApplicationContext(), "鍔犲瘑鎴愬姛",
 						Toast.LENGTH_SHORT).show();
 				finish();
 			} else {
-				Toast.makeText(getApplicationContext(), "加密失败！",
+				Toast.makeText(getApplicationContext(), "鍔犲瘑澶辫触",
 						Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -76,7 +76,7 @@ public class ReceiveFileActivity extends ActionBarActivity {
 				try {
 					// Get resource path from intent
 					Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
-					// 返回路径
+					// 锟斤拷锟斤拷路锟斤拷
 					// String path = getRealPathFromURI(this, uri);
 					Toast.makeText(getApplicationContext(), uri.toString(),
 							Toast.LENGTH_SHORT).show();
