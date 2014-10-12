@@ -37,9 +37,9 @@ public class DBHelper {
 	private DBHelper(Context context) throws FileNotFoundException {
 		sdCardPath=getSDcardPath();
 		db = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
-		db.execSQL("CREATE TABLE IF NOT EXITS photo (orig_path VARCHAR(64),orig_name VARCHAR(32),thumb BLOB，privacted_path VARCHAR(64),privacted_name VARCHAR(32))");
-		db.execSQL("CREATE TABLE IF NOT EXITS file (orig_path VARCHAR(64),orig_name VARCHAR(32),privacted_path VARCHAR(64),privacted_name VARCHAR(32),file_type VARCHAR(8))");
-		db.execSQL("CREATE TABLE IF NOT EXITS txt (privacted_txt VARCHAR(1024),txt_type VARCHAR(8))");
+		db.execSQL("CREATE TABLE IF NOT EXISTS photo (orig_path VARCHAR(64),orig_name VARCHAR(32),thumb BLOB,privacted_path VARCHAR(64),privacted_name VARCHAR(32))");
+		db.execSQL("CREATE TABLE IF NOT EXISTS file (orig_path VARCHAR(64),orig_name VARCHAR(32),privacted_path VARCHAR(64),privacted_name VARCHAR(32),file_type VARCHAR(8))");
+		db.execSQL("CREATE TABLE IF NOT EXISTS txt (privacted_txt VARCHAR(1024),txt_type VARCHAR(8))");
 	}
 
 	private String getSDcardPath() throws FileNotFoundException {
@@ -86,8 +86,8 @@ public class DBHelper {
 		values.put("thumb", bmpToByteArray(thumb));
 		values.put("privacted_path", sdCardPath+PRIVACTED_PHOTO_DIR);
 		values.put("privacted_name", origName+PRIVACTED_NAME_FIX);
-		db.insert("photo", null, values);
-		return true;
+		long result=db.insert("photo", null, values);
+		return result!=-1;
 	}
 	
 	/**
@@ -102,6 +102,7 @@ public class DBHelper {
 		values.put("orig_name", origName);
 		values.put("privacted_path", sdCardPath+PRIVACTED_PHOTO_DIR);
 		values.put("privacted_name", origName+PRIVACTED_NAME_FIX);
+		boolean i=db.isOpen();
 		db.insert("file", null, values);
 		return true;
 	}
