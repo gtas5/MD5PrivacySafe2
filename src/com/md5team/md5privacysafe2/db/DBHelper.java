@@ -20,7 +20,7 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 /**
- * 数据库工具类
+ * 数据库工具类，同时也提供一些文件功能
  * @author LiuYajun
  * 
  */
