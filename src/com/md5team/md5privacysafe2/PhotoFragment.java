@@ -4,6 +4,7 @@
 package com.md5team.md5privacysafe2;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import com.md5team.md5privacysafe2.db.DBHelper;
  */
 public class PhotoFragment extends Fragment {
 	GridView grid;
-	List<HashMap<String, Object>> list;
+	List<HashMap<String, Object>> list=new ArrayList<HashMap<String,Object>>();
 	PhotoAdapter adapter;
 
 	@Override
@@ -44,14 +45,7 @@ public class PhotoFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try {
-			DBHelper dbHelper = DBHelper.getInstance(getActivity());
-			list = dbHelper.queryALLPhotos();
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	@Override
@@ -81,6 +75,16 @@ public class PhotoFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		DBHelper dbHelper;
+		try {
+			dbHelper = DBHelper.getInstance(getActivity());
+			list = dbHelper.queryALLPhotos();
+			adapter.notifyDataSetChanged();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override

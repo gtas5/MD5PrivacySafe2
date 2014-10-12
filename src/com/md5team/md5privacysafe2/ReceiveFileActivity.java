@@ -34,7 +34,7 @@ public class ReceiveFileActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_receive_file);
-	
+
 		progressBar = (ProgressBar) findViewById(R.id.encryProgressBar);
 		cancleButton = (Button) findViewById(R.id.encryCancleButton);
 		cancleButton.setOnClickListener(new OnClickListener() {
@@ -45,7 +45,7 @@ public class ReceiveFileActivity extends ActionBarActivity {
 				finish();
 			}
 		});
-		
+
 		encryTask = new EncryFileAsyncTask() {
 			@Override
 			protected void onCancelled() {
@@ -81,46 +81,48 @@ public class ReceiveFileActivity extends ActionBarActivity {
 				progressBar.setProgress(values[0]);
 			}
 		};
-		
+
 		try {
-			dbHelper=DBHelper.getInstance(getApplicationContext());
+			dbHelper = DBHelper.getInstance(getApplicationContext());
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 		String action = i.getAction();
-		if (Intent.ACTION_SEND.equals(action)) {        
+		if (Intent.ACTION_SEND.equals(action)) {
 			if (extras.containsKey(Intent.EXTRA_STREAM)) {
 				try {
 					Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
+					String p=uri.getPath().toString();
 					String path = getPath(uri);
-					File photo=new File(path);
-					//外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
-					ContentResolver resolver = getContentResolver();
-					Bitmap bm = MediaStore.Images.Media.getBitmap(resolver, uri); //显得到bitmap图片
-					Bitmap thum = ThumbnailUtils.extractThumbnail(bm,100,50);
-					dbHelper.storeNewPhoto(photo.getParent(), photo.getName(), thum);
-					encryTask.execute(photo);
+					if (path.endsWith(".jpg") || path.endsWith(".GPG")
+							|| path.endsWith(".PNG") || (path.endsWith(".png"))) {
+						File photo = new File(path);
+						// 外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
+						ContentResolver resolver = getContentResolver();
+						Bitmap bm = MediaStore.Images.Media.getBitmap(resolver,
+								uri); // 显得到bitmap图片
+						Bitmap thum = ThumbnailUtils.extractThumbnail(bm, 90,90);
+						dbHelper.storeNewPhoto(photo.getParent(),
+								photo.getName(), thum);
+						encryTask.execute(photo);
+					}
 				} catch (Exception e) {
 					Log.e(this.getClass().getName(), e.toString());
 				}
 			} else if (extras.containsKey(Intent.EXTRA_TEXT)) {
+				
 			}
 		}
 	}
 
-	private void storeInfoInDB() {
 
-	}
-	
-	private String getPath(Uri uri) throws FileNotFoundException, IOException{
-		String[] proj = {MediaStore.Images.Media.DATA};
-		Cursor cursor =getContentResolver().query(uri, null, null, null, null);;
-		cursor.moveToFirst(); 
-		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); 
+	private String getPath(Uri uri) throws FileNotFoundException, IOException {
+		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+		cursor.moveToFirst();
+		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
 		return cursor.getString(idx);
 	}
 
