@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,14 +26,14 @@ import android.os.Environment;
  */
 public class DBHelper {
 	public final static String DB_NAME = "md5db.db";
-	public final static String ENCRYTED_DIR = "/MD5PrivacySafe";
-	public final static String ENCRYTED_PHOTO_DIR =ENCRYTED_DIR+"/photo";
-	public final static String ENCRYTED_FILE_DIR =ENCRYTED_DIR+"/file";
+	public final static String ENCRYTED_DIR = "/MD5PrivacySafe/encyted/";
+	public final static String ENCRYTED_PHOTO_DIR =ENCRYTED_DIR+"/photo/";
+	public final static String ENCRYTED_FILE_DIR =ENCRYTED_DIR+"/file/";
 	
 	/**
 	 * 加密后的图片，文件的后缀名会杯添加该字符串，以防止图库等程序读取
 	 */
-	public final static String encryted_NAME_FIX="_";
+	public final static String ENCRYTED_NAME_FIX=".md5safe";
 	private static DBHelper helper = null;
 	private static SQLiteDatabase db = null;
 	String sdCardPath;
@@ -41,8 +42,19 @@ public class DBHelper {
 		
 	}
 
-	private DBHelper(Context context) throws FileNotFoundException {
+	private DBHelper(Context context) throws IOException {
 		sdCardPath=getSDcardPath();
+		File photoDir=new File(getEncrytedPhotoDir());
+		File fileDir=new File(getEncrytedFileDir());
+				
+		if(!photoDir.exists()){
+			photoDir.mkdirs();
+		}
+		
+		if(!fileDir.exists()){
+			fileDir.mkdirs();
+		}
+		
 		db = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
 		db.execSQL("CREATE TABLE IF NOT EXISTS photo (orig_path VARCHAR(64),orig_name VARCHAR(32),thumb BLOB,encryted_path VARCHAR(64),encryted_name VARCHAR(32))");
 		db.execSQL("CREATE TABLE IF NOT EXISTS file (orig_path VARCHAR(64),orig_name VARCHAR(32),encryted_path VARCHAR(64),encryted_name VARCHAR(32),file_type VARCHAR(8))");
@@ -71,7 +83,7 @@ public class DBHelper {
 	}
 
 
-	public static DBHelper getInstance(Context context) throws FileNotFoundException {
+	public static DBHelper getInstance(Context context) throws IOException {
 		if (helper == null) {
 			helper = new DBHelper(context);
 		}
@@ -92,7 +104,7 @@ public class DBHelper {
 		values.put("orig_name", origName);
 		values.put("thumb", bmpToByteArray(thumb));
 		values.put("encryted_path", sdCardPath+ENCRYTED_PHOTO_DIR);
-		values.put("encryted_name", origName+encryted_NAME_FIX);
+		values.put("encryted_name", origName+ENCRYTED_NAME_FIX);
 		long result=db.insert("photo", null, values);
 		return result!=-1;
 	}
@@ -103,12 +115,13 @@ public class DBHelper {
 	 * @param origName 加密前文件的名字
 	 * @return
 	 */
-	public boolean storeNewFile(String origPath,String origName){
+	public boolean storeNewFile(String origPath,String origName,String fileType){
 		ContentValues values = new ContentValues();
 		values.put("orig_path", origPath);
 		values.put("orig_name", origName);
 		values.put("encryted_path", sdCardPath+ENCRYTED_PHOTO_DIR);
-		values.put("encryted_name", origName+encryted_NAME_FIX);
+		values.put("encryted_name", origName+ENCRYTED_NAME_FIX);
+		values.put("file_type", fileType);
 		boolean i=db.isOpen();
 		db.insert("file", null, values);
 		return true;
@@ -155,4 +168,37 @@ public class DBHelper {
 		return list;
 	}
 	
+	/**
+	 * 获取加密图的存储目录
+	 * @return
+	 */
+	public String getEncrytedPhotoDir(){
+		return sdCardPath+ENCRYTED_PHOTO_DIR;
+	}
+	
+	/**
+	 * 获取加密文件的存储目录
+	 * @return
+	 */
+	public String getEncrytedFileDir(){
+		return sdCardPath+ENCRYTED_FILE_DIR;
+	}
+	
+	/**
+	 * 根据提过的原照片名获取加密后的存储路径和文件名
+	 * @param origName
+	 * @return
+	 */
+	public String getEncrytedPhotoPathAndName(String origName){
+		return getEncrytedPhotoDir()+origName+ENCRYTED_NAME_FIX;
+	}
+	
+	/**
+	 * 根据提过的原文件名获取加密后的存储路径和文件名
+	 * @param origName
+	 * @return
+	 */
+	public String getEncrytedFilePathAndName(String origName){
+		return getEncrytedFileDir()+origName+ENCRYTED_NAME_FIX;
+	}
 }

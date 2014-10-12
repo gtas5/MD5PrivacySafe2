@@ -24,6 +24,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+/**
+ * @author 亚军
+ *
+ */
 public class ReceiveFileActivity extends ActionBarActivity {
 	ProgressBar progressBar;
 	Button cancleButton;
@@ -84,8 +88,9 @@ public class ReceiveFileActivity extends ActionBarActivity {
 
 		try {
 			dbHelper = DBHelper.getInstance(getApplicationContext());
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		Intent i = getIntent();
@@ -107,7 +112,7 @@ public class ReceiveFileActivity extends ActionBarActivity {
 						Bitmap thum = ThumbnailUtils.extractThumbnail(bm, 90,90);
 						dbHelper.storeNewPhoto(photo.getParent(),
 								photo.getName(), thum);
-						encryTask.execute(photo);
+						encryTask.execute(path,dbHelper.getEncrytedPhotoPathAndName(photo.getName()));
 					}
 				} catch (Exception e) {
 					Log.e(this.getClass().getName(), e.toString());

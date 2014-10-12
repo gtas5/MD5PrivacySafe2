@@ -3,25 +3,22 @@
  */
 package com.md5team.md5privacysafe2;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.md5team.md5privacysafe2.db.DBHelper;
@@ -43,12 +40,6 @@ public class PhotoFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.photo_fragment, container,
@@ -60,18 +51,6 @@ public class PhotoFragment extends Fragment {
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-	}
-
-	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
@@ -80,35 +59,11 @@ public class PhotoFragment extends Fragment {
 			dbHelper = DBHelper.getInstance(getActivity());
 			list = dbHelper.queryALLPhotos();
 			adapter.notifyDataSetChanged();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	}
-
-	@Override
-	public void onDestroyView() {
-		// TODO Auto-generated method stub
-		super.onDestroyView();
-	}
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	class PhotoAdapter extends BaseAdapter{
