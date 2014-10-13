@@ -29,14 +29,6 @@ public class FileFragment extends ListFragment {
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
-
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub

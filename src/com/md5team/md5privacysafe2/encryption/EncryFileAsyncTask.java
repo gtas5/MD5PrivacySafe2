@@ -17,7 +17,7 @@ public class EncryFileAsyncTask extends AsyncTask<String, Integer, Boolean> {
 	protected Boolean doInBackground(String... arg0) {
 		// TODO Auto-generated method stub
 
-		byte[] buf = new byte[10*1024 * 1024]; // 1k缓存
+		byte[] buf = new byte[512*1024 * 1024]; // 1k缓存
 
 		File re = new File(arg0[0]);
 		File de = new File(arg0[1]);
