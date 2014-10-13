@@ -30,6 +30,12 @@ public class FileFragment extends ListFragment {
 	}
 
 	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+
+	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
