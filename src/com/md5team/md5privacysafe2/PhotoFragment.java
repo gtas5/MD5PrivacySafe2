@@ -34,7 +34,6 @@ public class PhotoFragment extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		((MainActivity) activity).onSectionAttached(1);
 	}
@@ -52,7 +51,6 @@ public class PhotoFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		DBHelper dbHelper;
 		try {
@@ -60,7 +58,6 @@ public class PhotoFragment extends Fragment {
 			list = dbHelper.queryALLPhotos();
 			adapter.notifyDataSetChanged();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

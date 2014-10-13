@@ -4,13 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.md5team.md5privacysafe2.model.FileIteam;
-import com.md5team.md5privacysafe2.model.PhotoIteam;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,6 +15,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+
+import com.md5team.md5privacysafe2.model.FileIteam;
+import com.md5team.md5privacysafe2.model.PhotoIteam;
 
 /**
  * 数据库工具类，同时也提供一些文件功能
@@ -123,7 +122,6 @@ public class DBHelper {
 		values.put("encryted_path", sdCardPath+ENCRYTED_PHOTO_DIR);
 		values.put("encryted_name", origName+ENCRYTED_NAME_FIX);
 		values.put("file_type", fileType);
-		boolean i=db.isOpen();
 		db.insert("file", null, values);
 		return true;
 	}

@@ -1,6 +1,5 @@
 package com.md5team.md5privacysafe2.model;
 
-import android.graphics.Bitmap;
 
 /**
  * @author 亚军

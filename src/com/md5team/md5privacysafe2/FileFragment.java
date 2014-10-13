@@ -12,7 +12,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -31,7 +35,6 @@ public class FileFragment extends Fragment {
 	
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		((MainActivity) activity).onSectionAttached(2);
 	}
@@ -46,6 +49,7 @@ public class FileFragment extends Fragment {
 		ListView list=(ListView) rootView.findViewById(R.id.fileList);
 		adapter=new FileListAdapter();
 		list.setAdapter(adapter);
+		registerForContextMenu(list);
 		return rootView;
 	}
 
@@ -53,7 +57,6 @@ public class FileFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();	
 		DBHelper dbHelper;
 		try {
@@ -61,7 +64,6 @@ public class FileFragment extends Fragment {
 			fileList=dbHelper.queryALLFiles();
 			adapter.notifyDataSetChanged();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -76,19 +78,16 @@ public class FileFragment extends Fragment {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return fileList.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
@@ -106,6 +105,25 @@ public class FileFragment extends Fragment {
 			return iteam;
 		}
 		
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return super.onContextItemSelected(item);
+	}
+
+
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		if(v.getId()==R.id.fileList){
+			MenuInflater inflater = getActivity().getMenuInflater();
+			inflater.inflate(R.menu.file_menu, menu); 
+		}
+		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 	
 }
