@@ -46,19 +46,22 @@ public class MainActivity extends ActionBarActivity implements
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
+		Fragment f=null;
 		switch(position){
 		case 0:
-			fragmentManager
-			.beginTransaction()
-			.replace(R.id.container,
-					new PhotoFragment()).commit();
-			return;
-//			break;
+			f=new PhotoFragment();
+			break;
+		case 1:
+			f=new FileFragment();
+			break;
+		default:
+			f=PlaceholderFragment.newInstance(position+1);
+			break;
 		}
 		fragmentManager
 				.beginTransaction()
 				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1)).commit();
+						f).commit();
 	}
 
 	public void onSectionAttached(int number) {

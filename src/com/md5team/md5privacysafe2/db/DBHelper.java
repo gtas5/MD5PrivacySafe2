@@ -176,7 +176,7 @@ public class DBHelper {
 	public List<FileIteam> queryALLFiles(){
 		List<FileIteam> list=new ArrayList<FileIteam>();
 		
-		Cursor c=db.rawQuery("SELECT * FROM file WHERE file_type <> ?", new String[]{"csv"});
+		Cursor c=db.rawQuery("SELECT * FROM file WHERE file_type <> ? ORDER BY file_type", new String[]{"csv"});
 		while(c.moveToNext()){
 			FileIteam file=new FileIteam();
 			file.origName=c.getString(c.getColumnIndex("orig_name"));

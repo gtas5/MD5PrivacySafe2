@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import android.os.AsyncTask;
 
@@ -11,7 +13,7 @@ import android.os.AsyncTask;
  * @author 亚军
  *
  */
-public class EncryPhotoAsyncTask extends AsyncTask<String, Integer, Boolean> {
+public abstract class EncryFileAsyncTask extends AsyncTask<String, Integer, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(String... arg0) {
@@ -23,8 +25,8 @@ public class EncryPhotoAsyncTask extends AsyncTask<String, Integer, Boolean> {
 		File de = new File(arg0[1]);
 
 		long fileSize = re.length();
-		FileInputStream in = null;
-		FileOutputStream out = null;
+		InputStream in = null;
+		OutputStream out = null;
 
 		try {
 			in = new FileInputStream(re);
@@ -34,7 +36,7 @@ public class EncryPhotoAsyncTask extends AsyncTask<String, Integer, Boolean> {
 			while ((len = in.read(buf)) != -1) {
 				out.write(buf, 0, len);
 				dealYet += len;
-				publishProgress((int) (dealYet / fileSize));
+				publishProgress((int) ((100*dealYet) / fileSize));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -55,4 +57,5 @@ public class EncryPhotoAsyncTask extends AsyncTask<String, Integer, Boolean> {
 
 		return true;
 	}
+
 }
