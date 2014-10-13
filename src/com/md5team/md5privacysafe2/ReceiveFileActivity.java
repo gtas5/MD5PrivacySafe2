@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.md5team.md5privacysafe2.db.DBHelper;
-import com.md5team.md5privacysafe2.encryption.EncryFileAsyncTask;
+import com.md5team.md5privacysafe2.encryption.EncryPhotoAsyncTask;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -36,7 +36,7 @@ public class ReceiveFileActivity extends ActionBarActivity {
 	ProgressBar progressBar;
 	Button cancleButton;
 	DBHelper dbHelper;
-	EncryFileAsyncTask encryTask;
+	EncryPhotoAsyncTask encryTask;
 	Intent intent;
 	Bundle extras;
 
@@ -89,7 +89,7 @@ public class ReceiveFileActivity extends ActionBarActivity {
 
 	}
 
-	protected class MyEncryTask extends EncryFileAsyncTask {
+	protected class MyEncryTask extends EncryPhotoAsyncTask {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			if (result) {

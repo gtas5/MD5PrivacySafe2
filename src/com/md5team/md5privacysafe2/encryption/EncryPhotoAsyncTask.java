@@ -11,7 +11,7 @@ import android.os.AsyncTask;
  * @author 亚军
  *
  */
-public class EncryFileAsyncTask extends AsyncTask<String, Integer, Boolean> {
+public class EncryPhotoAsyncTask extends AsyncTask<String, Integer, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(String... arg0) {
