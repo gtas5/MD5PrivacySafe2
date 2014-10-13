@@ -10,6 +10,7 @@ import com.md5team.md5privacysafe2.model.FileIteam;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +24,10 @@ import android.widget.TextView;
  * @author 亚军
  * 
  */
-public class FileFragment extends ListFragment {
+public class FileFragment extends Fragment {
 
 	List<FileIteam> fileList=new ArrayList<FileIteam>();
+	FileListAdapter adapter;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -33,7 +35,22 @@ public class FileFragment extends ListFragment {
 		super.onAttach(activity);
 		((MainActivity) activity).onSectionAttached(2);
 	}
-	
+
+
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.file_fragment, container,
+				false);
+		ListView list=(ListView) rootView.findViewById(R.id.fileList);
+		adapter=new FileListAdapter();
+		list.setAdapter(adapter);
+		return rootView;
+	}
+
+
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -42,7 +59,7 @@ public class FileFragment extends ListFragment {
 		try {
 			dbHelper = DBHelper.getInstance(getActivity());
 			fileList=dbHelper.queryALLFiles();
-			setListAdapter(new FileListAdapter());
+			adapter.notifyDataSetChanged();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
