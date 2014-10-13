@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -100,10 +101,10 @@ public class ReceiveFileActivity extends ActionBarActivity {
 			if (extras.containsKey(Intent.EXTRA_STREAM)) {
 				try {
 					Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
-					String p=uri.getPath().toString();
-					String path = getPath(uri);
-					if (path.endsWith(".jpg") || path.endsWith(".GPG")
-							|| path.endsWith(".PNG") || (path.endsWith(".png"))) {
+					String fileType=getFileType(uri);
+					
+					if (fileType.equals("jpeg")||fileType.equals("png")) {	//处理照片
+						String path = getPhotoPath(uri);
 						File photo = new File(path);
 						// 外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
 						ContentResolver resolver = getContentResolver();
@@ -113,18 +114,26 @@ public class ReceiveFileActivity extends ActionBarActivity {
 						dbHelper.storeNewPhoto(photo.getParent(),
 								photo.getName(), thum);
 						encryTask.execute(path,dbHelper.getEncrytedPhotoPathAndName(photo.getName()));
+					}else{													//处理其他文件
+						
 					}
 				} catch (Exception e) {
 					Log.e(this.getClass().getName(), e.toString());
 				}
-			} else if (extras.containsKey(Intent.EXTRA_TEXT)) {
+			} else if (extras.containsKey(Intent.EXTRA_TEXT)) {				//处理加密文本
 				
 			}
 		}
 	}
 
+	private String getFileType(Uri uri){
+		ContentResolver cR = getContentResolver();
+		MimeTypeMap mime = MimeTypeMap.getSingleton();
+		String type = mime.getExtensionFromMimeType(cR.getType(uri));
+		return type;
+	}
 
-	private String getPath(Uri uri) throws FileNotFoundException, IOException {
+	private String getPhotoPath(Uri uri) throws FileNotFoundException, IOException {
 		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 		cursor.moveToFirst();
 		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.md5team.md5privacysafe2.model.FileIteam;
 import com.md5team.md5privacysafe2.model.PhotoIteam;
 
 import android.content.ContentValues;
@@ -165,6 +166,26 @@ public class DBHelper {
 			list.add(map);
 		}
 		
+		return list;
+	}
+	
+	/**
+	 * 查询所有文件记录，注意，这里没有包含短信的记录
+	 * @return
+	 */
+	public List<FileIteam> queryALLFiles(){
+		List<FileIteam> list=new ArrayList<FileIteam>();
+		
+		Cursor c=db.rawQuery("SELECT * FROM file WHERE file_type <> ?", new String[]{"csv"});
+		while(c.moveToNext()){
+			FileIteam file=new FileIteam();
+			file.origName=c.getString(c.getColumnIndex("orig_name"));
+			file.origPath=c.getString(c.getColumnIndex("orig_path"));
+			file.encrytedName=c.getString(c.getColumnIndex("encryted_name"));
+			file.encrytedPath=c.getString(c.getColumnIndex("encryted_path"));
+			file.fileType=c.getString(c.getColumnIndex("file_type"));
+			list.add(file);
+		}
 		return list;
 	}
 	

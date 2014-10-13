@@ -15,7 +15,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
-    <string name="title_activity_receive_file">ReceiveFileActivity</string>
+    <string name="title_activity_receive_file">添加到MD5私密保险箱</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

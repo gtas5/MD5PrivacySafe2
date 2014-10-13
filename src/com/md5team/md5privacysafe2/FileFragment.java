@@ -7,14 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-
 /**
  * @author 亚军
- *
+ * 
  */
 public class FileFragment extends ListFragment {
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -23,22 +21,16 @@ public class FileFragment extends ListFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public void onResume() {
 		// TODO Auto-generated method stub
-		return super.onCreateView(inflater, container, savedInstanceState);
+		super.onResume();
+
 	}
 
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-	}
-
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
 	}
 
 }
