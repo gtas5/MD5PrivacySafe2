@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.md5team.md5privacysafe2.db.DBHelper;
-import com.md5team.md5privacysafe2.model.FileIteam;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -21,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.md5team.md5privacysafe2.db.DBHelper;
+import com.md5team.md5privacysafe2.model.FileIteam;
 
 /**
  * @author 亚军
