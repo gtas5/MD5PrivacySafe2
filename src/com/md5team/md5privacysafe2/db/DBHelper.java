@@ -145,7 +145,7 @@ public class DBHelper {
 	 * @return
 	 */
 	public ArrayList<HashMap<String, Object>> queryALLPhotos(){
-		ArrayList<HashMap<String, Object>> list=new ArrayList<>();
+		ArrayList<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		
 		Cursor c=db.rawQuery("SELECT * FROM photo",null);
 		while(c.moveToNext()){
