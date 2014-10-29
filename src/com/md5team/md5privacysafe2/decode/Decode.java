@@ -1,4 +1,4 @@
-package com.md5team.md5privacysafe2.encryption;
+package com.md5team.md5privacysafe2.decode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,10 +10,10 @@ import java.io.OutputStream;
 import android.os.AsyncTask;
 
 /**
- * @author 亚军,Axl
+ * @author Axl
  *
  */
-public abstract class EncryFileAsyncTask extends AsyncTask<String, Integer, Boolean> {
+public abstract class Decode extends AsyncTask<String, Integer, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(String... arg0) {
