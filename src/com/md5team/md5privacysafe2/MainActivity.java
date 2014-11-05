@@ -13,8 +13,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.crypto.Cipher; 
+
+import com.md5team.md5privacysafe2.aes.Aes_achieve;
+
+import android.annotation.SuppressLint;  
+import android.app.Activity;  
+import android.os.AsyncTask;  
+import android.os.Bundle;  
+import android.view.View;  
+import android.view.View.OnClickListener;  
+import android.widget.Button;  
+import android.widget.EditText;  
+import android.widget.TextView; 
+
+@SuppressLint("SdCardPath")  
+
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
+	
+
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -27,7 +45,17 @@ public class MainActivity extends ActionBarActivity implements
 	 * {@link #restoreActionBar()}.
 	 */
 	private CharSequence mTitle;
-
+	
+	
+	
+	private final String SDcardPath = "/mnt/sdcard/encry/";  
+    private Button mEncryptButton;  
+    private Button mDecryptButton;  
+    private TextView mShowMessage;  
+    private EditText mFileName;  
+    private EditText mNewFileName;  
+    private Aes_achieve mAESHelper;  
+    private EncryptionOrDecryptionTask mTask = null;  
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +68,66 @@ public class MainActivity extends ActionBarActivity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		super.onCreate(savedInstanceState);  
+//        setContentView(R.layout.main);  
+        mAESHelper = new Aes_achieve();  
+  
+//        mFileName = (EditText) findViewById(R.id.file_name);  
+//        mNewFileName = (EditText) findViewById(R.id.new_file_name);  
+//        mShowMessage = (TextView) findViewById(R.id.message);  
+//        mEncryptButton = (Button) findViewById(R.id.encrypt);  
+//        mDecryptButton = (Button) findViewById(R.id.decrypt);  
+  
+        mEncryptButton.setOnClickListener(new OnClickListener() {  
+  
+            @Override  
+            public void onClick(View v) {  
+  
+                mShowMessage.setText("开始加密，请稍等...");  
+                if (mTask != null) {  
+                    mTask.cancel(true);  
+                }  
+  
+                mTask = new EncryptionOrDecryptionTask(true, SDcardPath  
+                        + mFileName.getText(), SDcardPath, mNewFileName  
+                        .getText().toString(), "zjc");  
+                mTask.execute();  
+            }  
+        });  
+  
+        mDecryptButton.setOnClickListener(new OnClickListener() {  
+  
+            @Override  
+            public void onClick(View v) {  
+  
+                mShowMessage.setText("开始解密，请稍等...");  
+  
+                if (mTask != null) {  
+                    mTask.cancel(true);  
+                }  
+  
+                mTask = new EncryptionOrDecryptionTask(false, SDcardPath  
+                        + mFileName.getText(), SDcardPath, mNewFileName  
+                        .getText().toString(), "zjc");  
+                mTask.execute();  
+  
+            }  
+        });  
+		
+		
+		
 	}
 
 	@Override
@@ -158,5 +246,56 @@ public class MainActivity extends ActionBarActivity implements
 					ARG_SECTION_NUMBER));
 		}
 	}
+	
+	
+	private class EncryptionOrDecryptionTask extends  
+    AsyncTask<Void, Void, Boolean> {  
+
+private String mSourceFile = "";  
+private String mNewFilePath = "";  
+private String mNewFileName = "";  
+private String mSeed = "";  
+private boolean mIsEncrypt = false;  
+
+public EncryptionOrDecryptionTask(boolean isEncrypt, String sourceFile,  
+        String newFilePath, String newFileName, String seed) {  
+    this.mSourceFile = sourceFile;  
+    this.mNewFilePath = newFilePath;  
+    this.mNewFileName = newFileName;  
+    this.mSeed = seed;  
+    this.mIsEncrypt = isEncrypt;  
+}  
+
+@Override  
+protected Boolean doInBackground(Void... params) {  
+
+    boolean result = false;  
+
+    if (mIsEncrypt) {  
+        result = mAESHelper.AESCipher(Cipher.ENCRYPT_MODE, mSourceFile,  
+                mNewFilePath + mNewFileName, mSeed);  
+    } else {  
+        result = mAESHelper.AESCipher(Cipher.DECRYPT_MODE, mSourceFile,  
+                mNewFilePath + mNewFileName, mSeed);  
+    }  
+
+    return result;  
+}  
+
+@Override  
+protected void onPostExecute(Boolean result) {  
+    super.onPostExecute(result);  
+    String showMessage = "";  
+
+    if (mIsEncrypt) {  
+        showMessage = result ? "加密已完成" : "加密失败!";  
+    } else {  
+        showMessage = result ? "解密完成" : "解密失败!";  
+    }  
+
+    mShowMessage.setText(showMessage);  
+}  
+}  
+	
 
 }
